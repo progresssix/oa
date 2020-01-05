@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+
+    <!-- 2.读取properties -->
+    <context:property-placeholder location="classpath:properties/druid.properties"/>
+    <!--3. 配置数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${druid.driverClass}"/>
+        <!-- 配置Jdbc的Url -->
+        <property name="url" value="${druid.url}"/>
+        <!-- 配置用户名 -->
+        <property name="username" value="${druid.username}"/>
+        <!-- 密码 -->
+        <property name="password" value="${druid.password}"/>
+        <property name="initialSize" value="${initialSize}"/>
+        <property name="maxActive" value="${maxActive}"/>
+    </bean>
+    <!--分页插件-->
+    <!-- 配置pageHelp的拦截器 -->
+    <bean id="plugin" class="com.github.pagehelper.PageInterceptor">
+        <property name="properties">
+            <value>helperDialect=mysql</value>
+        </property>
+    </bean>
+    <!-- 6.spring管理mybatis配置文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--dataSource属性指定要用到的连接池 ref映射的是id=dataSource的bean标签，读取连接数据库信息-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--configLocation属性指定mybatis的核心配置文件，管理mybatis配置文件-->
+        <property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"/>
+        <!-- 所有配置的mapper文件,mybatis的实体类配置文件所有的sql映射文件 -->
+        <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"></property>
+        <property name="plugins">
+            <list>
+                <ref bean="plugin"></ref>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.whhp.oa.mapper"/>
+    </bean>
+</beans>

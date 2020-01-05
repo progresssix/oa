@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 生成配置文件 -->
+<generatorConfiguration>
+    <classPathEntry location="B:\serverRepository\mysql\mysql-connector-java\5.1.8\mysql-connector-java-5.1.8.jar"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--带分页的插件-->
+        <commentGenerator>
+            <!-- 是否生成注释代时间戳 -->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 此处为 true 时，生成的 Model 包含对应表字段注释 -->
+            <property name="addRemarkComments" value="true"/>
+            <!-- 此处为 true 时，生成的 Mapper 接口将增加 @Mapper 注解，Spring ComponentScan 时可自动识别 -->
+            <property name="addMapperAnnotation" value="true"/>
+        </commentGenerator>
+        <!-- 1.连接数据库信息 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/oa?characterEncoding=UTF-8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+            NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 2.pojo类的生成配置  targetPackage表示目标文件夹
+		targetProject表示当前目标文件夹所放置的目标地址
+	 -->
+        <javaModelGenerator targetPackage="com.whhp.oa.pojo" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 3.sql映射文件生成配置 -->
+        <sqlMapGenerator targetPackage="mybatis/mapper" targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 4.mapper接口配置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.whhp.oa.mapper" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!-- 5.数据库表和实体类映射 -->
+        <table schema="oa" tableName="department" domainObjectName="Department"
+        enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false">
+        </table>
+        <table schema="oa" tableName="menu" domainObjectName="Menu"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+        <table schema="oa" tableName="post" domainObjectName="Post"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+        <table schema="oa" tableName="user" domainObjectName="User"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+        <table schema="oa" tableName="user_menu" domainObjectName="UserMenu"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+        <table schema="oa" tableName="user_post" domainObjectName="UserPost"
+               enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false">
+        </table>
+    </context>
+</generatorConfiguration>
